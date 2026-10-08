@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zenvyx AI — Crie sites com IA</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:#f7f7fb;background:#050507;overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:55px 55px;
+  mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
+body:after{
+  content:"";position:fixed;width:600px;height:600px;top:-250px;left:50%;
+  transform:translateX(-50%);background:#7c3cff;filter:blur(150px);opacity:.18;z-index:-3;
+}
+a{text-decoration:none;color:inherit}
+.nav{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);
+  width:min(1120px,calc(100% - 28px));height:62px;padding:0 12px 0 22px;
+  display:flex;align-items:center;justify-content:space-between;z-index:20;
+  border:1px solid rgba(255,255,255,.1);border-radius:20px;
+  background:rgba(9,9,13,.72);backdrop-filter:blur(22px);
+  box-shadow:0 15px 60px rgba(0,0,0,.3);
+}
+.logo{font-size:21px;font-weight:850;letter-spacing:-1px}
+.logo span{color:#9b72ff}
+.links{display:flex;gap:28px;color:#aaa;font-size:14px}
+.links a:hover{color:#fff}
+.navbtn,.mainbtn{
+  border:0;color:#fff;font-weight:750;cursor:pointer;
+  background:linear-gradient(135deg,#8b5cf6,#5b4bff);
+  box-shadow:0 0 28px rgba(117,82,255,.3);
+}
+.navbtn{padding:11px 18px;border-radius:12px}
+.hero{
+  min-height:850px;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:150px 20px 80px;position:relative;
+}
+.orb{position:absolute;border-radius:50%;filter:blur(1px);pointer-events:none}
+.orb.one{width:340px;height:340px;left:-180px;top:330px;background:radial-gradient(circle,#713cff33,transparent 65%)}
+.orb.two{width:420px;height:420px;right:-190px;top:160px;background:radial-gradient(circle,#2c6bff26,transparent 65%)}
+.hero-inner{max-width:900px}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);
+  color:#cfc8ff;font-size:13px;margin-bottom:25px;
+}
+.dot{width:7px;height:7px;border-radius:50%;background:#9c7cff;box-shadow:0 0 14px #9c7cff}
+h1{
+  font-size:clamp(52px,8vw,94px);line-height:.95;letter-spacing:-5px;
+  font-weight:900;margin-bottom:25px;
+}
+.gradient{
+  background:linear-gradient(100deg,#fff 15%,#b69aff 52%,#6f8cff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.sub{max-width:680px;margin:auto;color:#9898a6;font-size:18px;line-height:1.7}
+.generator{
+  margin:38px auto 0;max-width:680px;padding:8px;border-radius:18px;
+  border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.045);
+  box-shadow:0 20px 80px rgba(0,0,0,.35),0 0 80px rgba(104,71,255,.08);
+  display:flex;gap:8px;
+}
+.generator input{
+  flex:1;min-width:0;border:0;outline:0;background:transparent;color:white;
+  padding:17px 16px;font-size:16px;
+}
+.generator input::placeholder{color:#686874}
+.mainbtn{padding:0 22px;border-radius:13px;font-size:14px;transition:.2s}
+.mainbtn:hover,.navbtn:hover{transform:translateY(-2px);filter:brightness(1.12)}
+.examples{margin-top:15px;color:#666;font-size:12px}
+.chips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{
+  cursor:pointer;padding:7px 11px;border-radius:9px;color:#aaa;
+  border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);
+}
+.chip:hover{color:#fff;border-color:#7c5cff55}
+.trust{margin-top:55px;color:#555;font-size:12px}
+section{padding:105px 20px}
+.wrap{max-width:1120px;margin:auto}
+.kicker{color:#8d72ff;text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800}
+.title{font-size:clamp(34px,5vw,58px);letter-spacing:-2px;margin:12px 0 16px}
+.desc{color:#898994;line-height:1.7;max-width:650px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:45px}
+.card{
+  padding:28px;border:1px solid rgba(255,255,255,.08);border-radius:22px;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018));
+  min-height:210px;transition:.3s;
+}
+.card:hover{transform:translateY(-6px);border-color:#8b5cf644;box-shadow:0 20px 70px rgba(77,45,180,.12)}
+.icon{
+  width:43px;height:43px;display:grid;place-items:center;border-radius:13px;
+  background:#7656ff18;border:1px solid #8d72ff33;margin-bottom:25px;font-size:19px
+}
+.card h3{margin-bottom:10px;font-size:18px}.card p{color:#777784;line-height:1.6;font-size:14px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:40px}
+.step{padding:25px;border-top:1px solid #ffffff15}
+.num{font-size:12px;color:#8264ff;font-weight:800}.step h3{margin:14px 0 8px}.step p{color:#777;line-height:1.6;font-size:14px}
+.demo{
+  display:grid;grid-template-columns:.8fr 1.2fr;gap:50px;align-items:center
+}
+.browser{
+  border:1px solid #ffffff14;border-radius:20px;background:#0b0b10;overflow:hidden;
+  box-shadow:0 35px 100px rgba(0,0,0,.45),0 0 80px rgba(94,61,255,.1)
+}
+.bar{height:40px;border-bottom:1px solid #ffffff0d;display:flex;align-items:center;gap:6px;padding:0 14px}
+.ball{width:8px;height:8px;border-radius:50%;background:#333}
+.preview{padding:28px;min-height:370px;background:linear-gradient(145deg,#101018,#09090d)}
+.preview small{color:#8d72ff}.preview h2{font-size:38px;letter-spacing:-2px;margin:35px 0 12px}.preview p{color:#858592;max-width:360px;line-height:1.5}.fakebtn{display:inline-block;margin-top:22px;padding:11px 15px;border-radius:10px;background:#fff;color:#09090d;font-weight:800;font-size:12px}
+.cta{text-align:center;padding-bottom:130px}
+.ctabox{
+  border:1px solid #ffffff12;border-radius:28px;padding:75px 25px;
+  background:radial-gradient(circle at 50% 0,#6f4dff18,transparent 55%),rgba(255,255,255,.025);
+}
+footer{border-top:1px solid #ffffff0b;padding:35px 20px;color:#555;font-size:12px;text-align:center}
+@media(max-width:800px){
+  .links{display:none}.nav{height:58px}
+  h1{letter-spacing:-3px}.generator{flex-direction:column;background:rgba(255,255,255,.045)}
+  .mainbtn{height:52px}.grid,.steps,.demo{grid-template-columns:1fr}
+  .hero{min-height:780px}.demo{gap:30px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">Zenvyx<span>AI</span></div>
+  <div class="links">
+    <a href="#recursos">Recursos</a>
+    <a href="#como">Como funciona</a>
+    <a href="#demo">Demonstração</a>
+  </div>
+  <button class="navbtn" onclick="focarGerador()">Criar site</button>
+</nav>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="orb one"></div><div class="orb two"></div>
+  <div class="hero-inner">
+    <div class="badge"><span class="dot"></span> Criação de sites com Inteligência Artificial</div>
+    <h1>Seu site começa<br>com <span class="gradient">um nome.</span></h1>
+    <p class="sub">Digite o nome da sua empresa. A Zenvyx transforma sua ideia em uma experiência digital moderna, profissional e pronta para personalizar.</p>
+
+    <div class="generator">
+      <input id="empresa" type="text" placeholder="Nome da sua empresa..." autocomplete="off">
+      <button class="mainbtn" onclick="gerarSite()">✦ Gerar com IA</button>
+    </div>
+
+    <div class="examples">Experimente:</div>
+    <div class="chips">
+      <button class="chip" onclick="usar('Burger House')">Burger House</button>
+      <button class="chip" onclick="usar('Barbearia Prime')">Barbearia Prime</button>
+      <button class="chip" onclick="usar('Studio Fit')">Studio Fit</button>
+      <button class="chip" onclick="usar('Urban Fashion')">Urban Fashion</button>
+    </div>
+    <div class="trust">⚡ Uma nova forma de criar presença digital.</div>
+  </div>
+</section>
+
+<section id="recursos">
+ <div class="wrap">
+  <div class="kicker">Por que Zenvyx?</div>
+  <h2 class="title">De uma empresa a uma<br><span class="gradient">experiência digital.</span></h2>
+  <p class="desc">A Zenvyx foi pensada para transformar o processo de criação de sites em algo rápido, visual e inteligente.</p>
+  <div class="grid">
+   <article class="card"><div class="icon">✦</div><h3>IA criativa</h3><p>A inteligência artificial cria a estrutura visual e o conteúdo inicial da página.</p></article>
+   <article class="card"><div class="icon">⚡</div><h3>Rápido de verdade</h3><p>Comece apenas pelo nome da empresa e veja uma proposta surgir em poucos segundos.</p></article>
+   <article class="card"><div class="icon">◈</div><h3>Design premium</h3><p>Layouts modernos, responsivos e pensados para causar uma primeira impressão forte.</p></article>
+  </div>
+ </div>
+</section>
+
+<section id="como">
+ <div class="wrap">
+  <div class="kicker">Processo</div>
+  <h2 class="title">Do nome ao site.</h2>
+  <div class="steps">
+   <div class="step"><div class="num">01</div><h3>Digite o nome</h3><p>Informe somente o nome da empresa que você quer transformar.</p></div>
+   <div class="step"><div class="num">02</div><h3>A IA cria</h3><p>A Zenvyx prepara uma proposta visual baseada no negócio.</p></div>
+   <div class="step"><div class="num">03</div><h3>Personalize</h3><p>Edite, ajuste e transforme a proposta em um site completo.</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="demo">
+ <div class="wrap demo">
+  <div>
+   <div class="kicker">Preview inteligente</div>
+   <h2 class="title">Veja antes de publicar.</h2>
+   <p class="desc">A experiência da Zenvyx coloca a criação e a visualização lado a lado, deixando o processo muito mais intuitivo.</p>
+  </div>
+  <div class="browser">
+   <div class="bar"><span class="ball"></span><span class="ball"></span><span class="ball"></span></div>
+   <div class="preview">
+    <small>GERADO PELA ZENVYX AI</small>
+    <h2>Sua empresa.<br><span class="gradient">Sua presença.</span></h2>
+    <p>Uma experiência digital criada para apresentar sua marca de forma profissional.</p>
+    <span class="fakebtn">Conheça a empresa →</span>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="cta">
+ <div class="wrap">
+  <div class="ctabox">
+   <div class="kicker">Comece agora</div>
+   <h2 class="title">Sua empresa merece<br><span class="gradient">um site incrível.</span></h2>
+   <p class="desc" style="margin:auto">Digite um nome lá em cima e experimente a ideia da Zenvyx.</p>
+   <button class="mainbtn" style="height:50px;margin-top:25px;padding:0 24px" onclick="focarGerador()">Criar meu primeiro site ✦</button>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>Zenvyx AI © 2026 — Criação de sites com inteligência artificial.</footer>
+
+<script>
+function focarGerador(){
+  document.getElementById("empresa").scrollIntoView({behavior:"smooth",block:"center"});
+  setTimeout(()=>document.getElementById("empresa").focus(),500);
+}
+function usar(nome){
+  document.getElementById("empresa").value=nome;
+  focarGerador();
+}
+function gerarSite(){
+  const nome=document.getElementById("empresa").value.trim();
+  if(!nome){
+    alert("Digite o nome da empresa primeiro.");
+    focarGerador();
+    return;
+  }
+  alert(
+    "✦ ZENVYX AI\\n\\n"+
+    "Preparando uma proposta para:\\n\\n"+
+    nome+"\\n\\n"+
+    "A próxima etapa é conectar a Zenvyx à IA para gerar o site automaticamente."
+  );
+}
+document.getElementById("empresa").addEventListener("keydown",e=>{
+  if(e.key==="Enter") gerarSite();
+});
+</script>
+</body>
+</html>
